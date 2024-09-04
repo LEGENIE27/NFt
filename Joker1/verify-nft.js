@@ -1,6 +1,5 @@
-async function checkNFTOwnership() {
+async function verifyNFT() {
     if (typeof window.ethereum !== 'undefined') {
-        // Demande à l'utilisateur de se connecter à MetaMask
         await ethereum.request({ method: 'eth_requestAccounts' });
 
         const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -14,10 +13,10 @@ async function checkNFTOwnership() {
         const contract = new ethers.Contract(contractAddress, contractABI, provider);
 
         try {
-            // Vérifie si l'utilisateur possède au moins un NFT
             const balance = await contract.balanceOf(userAddress);
             if (balance.gt(0)) {
-                document.getElementById('content').style.display = 'block';
+                // Redirection vers la page d'accès accordé
+                window.location.href = "access-granted.html";
             } else {
                 document.getElementById('error').style.display = 'block';
             }
@@ -33,6 +32,3 @@ async function checkNFTOwnership() {
         document.getElementById('error').style.display = 'block';
     }
 }
-
-// Appelle la fonction pour vérifier la possession du NFT
-checkNFTOwnership();
